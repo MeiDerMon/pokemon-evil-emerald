@@ -499,7 +499,7 @@ static void SpriteCB_PokemonLogoShine(struct Sprite *sprite)
              || sprite->x == DISPLAY_WIDTH / 2 + (4 * SHINE_SPEED)
              || sprite->x == DISPLAY_WIDTH / 2 + (5 * SHINE_SPEED)
              || sprite->x == DISPLAY_WIDTH / 2 + (6 * SHINE_SPEED))
-                gPlttBufferFaded[0] = RGB(24, 31, 12);
+                gPlttBufferFaded[0] = RGB(31, 12, 12);
             else
                 gPlttBufferFaded[0] = backgroundColor;
         }
@@ -629,7 +629,7 @@ void CB2_InitTitleScreen(void)
         break;
     }
     case 3:
-        BeginNormalPaletteFade(PALETTES_ALL, 1, 16, 0, RGB_WHITEALPHA);
+        BeginNormalPaletteFade(PALETTES_ALL, 16, 0, 1, RGB_WHITEALPHA);
         SetVBlankCallback(VBlankCB);
         gMain.state = 4;
         break;
@@ -856,14 +856,33 @@ static void CB2_GoToBerryFixScreen(void)
 
 static void UpdateLegendaryMarkingColor(u8 frameNum)
 {
-    if ((frameNum % 4) == 0) // Change color every 4th frame
+    if ((frameNum % 4) == 0)
     {
-        s32 intensity = Cos(frameNum, 128) + 128;
-        s32 r = 31 - ((intensity * 32 - intensity) / 256);
-        s32 g = 31 - (intensity * 22 / 256);
-        s32 b = 12;
+        // Smooth value 0..256..0
+        s32 intensity = (Cos(frameNum, 128) + 128); // 0–256
+        s32 t = intensity; // alias
+
+        // Base color (darkest)
+        const s32 baseR = 8;
+        const s32 baseG = 6;
+        const s32 baseB = 9;
+
+        // Brightest color
+        const s32 brightR = 31;
+        const s32 brightG = 14;
+        const s32 brightB = 14;
+
+        // Linear interpolation between base and bright
+        s32 r = baseR + ((brightR - baseR) * t / 256);
+        s32 g = baseG + ((brightG - baseG) * t / 256);
+        s32 b = baseB + ((brightB - baseB) * t / 256);
+
+        // Safety clamp
+        if (r < 0) r = 0; if (r > 31) r = 31;
+        if (g < 0) g = 0; if (g > 31) g = 31;
+        if (b < 0) b = 0; if (b > 31) b = 31;
 
         u16 color = RGB(r, g, b);
         LoadPalette(&color, BG_PLTT_ID(14) + 15, sizeof(color));
-   }
+    }
 }
