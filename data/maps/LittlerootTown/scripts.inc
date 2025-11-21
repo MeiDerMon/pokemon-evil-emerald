@@ -280,6 +280,15 @@ LittlerootTown_EventScript_GoodLuck::
 	release
 	end
 
+LittlerootTown_EventScript_NeedPokemonGrass::
+	lockall
+	msgbox LittlerootTown_Text_DangerousIfYouDontHavePokemon, MSGBOX_DEFAULT
+	closemessage
+	applymovement LOCALID_PLAYER, LittlerootTown_Movement_PlayerWalkUp
+	waitmovement 0
+	releaseall
+	end
+
 LittlerootTown_EventScript_NeedPokemonTriggerLeft::
 	lockall
 	applymovement LOCALID_LITTLEROOT_TWIN, LittlerootTown_Movement_TwinApproachPlayerLeft
@@ -336,6 +345,10 @@ LittlerootTown_Movement_PushPlayerBackFromRoute:
 	lock_facing_direction
 	walk_down
 	unlock_facing_direction
+	step_end
+
+LittlerootTown_Movement_PlayerWalkUp:
+	walk_up
 	step_end
 
 LittlerootTown_EventScript_NeedPokemonTriggerRight::
