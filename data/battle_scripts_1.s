@@ -8112,12 +8112,6 @@ BattleScript_SwitchInAbilityMsg::
 	waitmessage B_WAIT_TIME_LONG
 	end3
 
-BattleScript_SwitchInAbilityMsgRet::
-	call BattleScript_AbilityPopUp
-	printfromtable gSwitchInAbilityStringIds
-	waitmessage B_WAIT_TIME_LONG
-	return
-
 BattleScript_ActivateAsOne::
 	call BattleScript_AbilityPopUp
 	printfromtable gSwitchInAbilityStringIds
@@ -9296,8 +9290,7 @@ BattleScript_NeutralizingGasExits::
 	setbyte gBattlerAttacker, 0
 BattleScript_NeutralizingGasExitsLoop:
 	copyarraywithindex gBattlerTarget, gBattlerByTurnOrder, gBattlerAttacker, 1
-	jumpifabilitycantbesuppressed BS_TARGET, BattleScript_NeutralizingGasExitsLoopIncrement
-	jumpifability BS_TARGET, ABILITY_IMPOSTER, BattleScript_NeutralizingGasExitsLoopIncrement @ Imposter only activates when first entering the field
+	jumpifabilitycantbereactivated BS_TARGET, BattleScript_NeutralizingGasExitsLoopIncrement
 	saveattacker
 	switchinabilities BS_TARGET
 	restoreattacker
@@ -9333,14 +9326,18 @@ BattleScript_TargetAbilityStatRaiseRet_End:
 @@@ MAX MOVES @@@
 BattleScript_EffectMaxMove::
 	attackcanceler
+	attackstring
+	ppreduce
 	accuracycheck BattleScript_ButItFailed, NO_ACC_CALC_CHECK_LOCK_ON
-	goto BattleScript_HitFromAtkString
+	goto BattleScript_HitFromCritCalc
 
 BattleScript_EffectRaiseStatAllies::
 	savetarget
 	copybyte gBattlerTarget, gBattlerAttacker
+	copybyte sSAVED_STAT_CHANGER, sSTATCHANGER
 BattleScript_RaiseSideStatsLoop:
 	jumpifabsent BS_TARGET, BattleScript_RaiseSideStatsIncrement
+	copybyte sSTATCHANGER, sSAVED_STAT_CHANGER
 	statbuffchange BS_TARGET, STAT_CHANGE_ALLOW_PTR, BattleScript_RaiseSideStatsIncrement
 	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_INCREASE, BattleScript_RaiseSideStatsIncrement
 	printfromtable gStatUpStringIds
@@ -9355,8 +9352,10 @@ BattleScript_RaiseSideStatsEnd:
 BattleScript_EffectLowerStatFoes::
 	savetarget
 	copybyte sBATTLER, gBattlerTarget
+	copybyte sSAVED_STAT_CHANGER, sSTATCHANGER
 BattleScript_LowerSideStatsLoop:
 	jumpifabsent BS_TARGET, BattleScript_LowerSideStatsIncrement
+	copybyte sSTATCHANGER, sSAVED_STAT_CHANGER
 	statbuffchange BS_TARGET, STAT_CHANGE_ALLOW_PTR, BattleScript_LowerSideStatsIncrement
 	jumpifbyte CMP_EQUAL, cMULTISTRING_CHOOSER, B_MSG_STAT_WONT_DECREASE, BattleScript_LowerSideStatsIncrement
 	printfromtable gStatDownStringIds
