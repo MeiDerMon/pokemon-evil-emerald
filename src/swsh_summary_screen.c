@@ -2312,7 +2312,7 @@ static void ChangeSummaryState(s16 *data, u8 taskId)
         tSkillsState = SKILL_STATE_IVS;
         break;
     case SKILL_STATE_IVS:
-        tSkillsState = SKILL_STATE_EVS;
+        tSkillsState = SKILL_STATE_STATS;
         break;
     case SKILL_STATE_EVS:
         tSkillsState = SKILL_STATE_STATS;
@@ -2333,7 +2333,7 @@ static void DrawNextSkillsButtonPrompt(u8 mode)
             break;
         case SKILL_STATE_IVS:
             ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_IVS);
-            PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_EVS);
+            PutWindowTilemap(PSS_LABEL_WINDOW_PROMPT_STATS);
             break;
         case SKILL_STATE_EVS:
             ClearWindowTilemap(PSS_LABEL_WINDOW_PROMPT_EVS);
@@ -3516,7 +3516,7 @@ static void PrintPageNamesAndStats(void)
             iconXPos = 0;
         PrintButtonIcon(PSS_LABEL_WINDOW_PROMPT_IVS, BUTTON_A, iconXPos, 4);
         PrintTextOnWindowWithFont(PSS_LABEL_WINDOW_PROMPT_IVS, sText_ViewIVs, stringXPos, 0, 0, 1, FONT_SMALL);
-
+ 
         stringXPos = GetStringRightAlignXOffset(FONT_SHORT_NARROW, sText_ViewEVs, skillsLabelWidth) - 2;
         iconXPos = stringXPos - 11;
         if (iconXPos < 0)
