@@ -81,6 +81,73 @@ Gender: Male
 Music: Male
 Double Battle: No
 
+=== TRAINER_HOWDYGAUDI ===
+Name: HOW & GAUD
+Class: Old Couple
+Pic: Old Couple
+Gender: Male
+Music: Intense
+Double Battle: Yes
+AI: Double Elite Trainer / Prediction / Assumptions
+Mugshot: Blue
+
+Swampert @ Swampertite  
+Ability: Water Compaction  
+Tera Type: Ground  
+Adamant Nature  
+- Earthquake  
+- Ice Punch  
+- Flip Turn  
+- Liquidation  
+
+Ludicolo @ Leftovers  
+Ability: Rain Dish  
+Tera Type: Steel  
+Bold Nature  
+- Energy Ball  
+- Leech Seed  
+- Muddy Water  
+- Fake Out  
+
+Mantine @ Assault Vest  
+Ability: Swift Swim  
+Tera Type: Ground  
+Calm Nature  
+IVs: 0 Atk  
+- Scald  
+- Hurricane  
+- Blizzard  
+- Whirlpool  
+
+Milotic @ Flame Orb  
+Ability: Marvel Scale  
+Tera Type: Fairy  
+IVs: 0 Atk  
+- Protect  
+- Life Dew  
+- Alluring Voice  
+- Helping Hand  
+
+Kingdra @ Choice Specs  
+Ability: Swift Swim  
+Tera Type: Water  
+Modest Nature  
+IVs: 0 Atk  
+- Draco Meteor  
+- Surf  
+- Blizzard  
+- Flash Cannon  
+
+Jellicent (M) @ Sitrus Berry  
+Ability: Water Absorb  
+Tera Type: Dark  
+Bold Nature  
+IVs: 0 Atk  
+- Scald  
+- Will-O-Wisp  
+- Giga Drain  
+- Sludge Bomb  
+
 === TRAINER_SAWYER_1 ===
 Name: SAWYER
 Class: Hiker

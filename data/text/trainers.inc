@@ -4794,3 +4794,15 @@ VSSeeker_Text_TrainersNotReady::
 	.string "The other Trainers don't appear\n"
 	.string "to be ready for battle.\p"
 	.string "Let's wait till later.{PAUSE_UNTIL_PRESS}$"
+
+LittlerootTown_Text_HowdyGaudiIntro:
+	.string "Howdy: Where did i put my Pokeballs again Darling?\n"
+	.string "Gaudi: EXCUSE ME?$"
+
+LittlerootTown_Text_HowdyGaudiDefeated:
+	.string "Howdy: Time for your Medications Darling\n"
+	.string "Gaudi: Ein doppelter Cheeseburger mit extra Senf Soße bitte.$"
+
+LittlerootTown_Text_HowdyGaudiPostBattle:
+	.string "Howdy: Time for your Medications Darling\n"
+	.string "Gaudi: Ein doppelter Cheeseburger mit extra Senf Soße bitte.$"
