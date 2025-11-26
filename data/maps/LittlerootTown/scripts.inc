@@ -310,7 +310,7 @@ LittlerootTown_EventScript_DangerousWithoutPokemon::
 	return
 
 LittlerootTown_EventScript_HowdyGaudi::
-	trainerbattle_single TRAINER_HOWDYGAUDI, LittlerootTown_Text_HowdyGaudiIntro, LittlerootTown_Text_HowdyGaudiDefeated
+	trainerbattle_single TRAINER_CYNTHIA_1, LittlerootTown_Text_HowdyGaudiIntro, LittlerootTown_Text_HowdyGaudiDefeated
 	msgbox LittlerootTown_Text_HowdyGaudiPostBattle, MSGBOX_AUTOCLOSE
 	release
 	end
