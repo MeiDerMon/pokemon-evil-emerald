@@ -88,7 +88,7 @@ Pic: Cynthia
 Gender: Female
 Music: Elite Four
 Double Battle: Yes
-AI: Double Elite Trainer / Prediction / Assumptions
+AI: Double Elite Trainer / Prediction
 Mugshot: Pink
 
 Sealeo
@@ -107,38 +107,14 @@ IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
 - Icy Wind
 - Ice Beam
 
-Sealeo
-Level: 52
-IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-- Attract
-- Double Edge
-- Hail
-- Blizzard
-
-Glalie
-Level: 52
-IVs: 30 HP / 30 Atk / 30 Def / 30 SpA / 30 SpD / 30 Spe
-- Shadow Ball
-- Explosion
-- Hail
-- Ice Beam
-
-Walrein @ Sitrus Berry
-Level: 53
-IVs: 31 HP / 31 Atk / 31 Def / 31 SpA / 31 SpD / 31 Spe
-- Surf
-- Body Slam
-- Ice Beam
-- Sheer Cold
-
 === TRAINER_HOWDYGAUDI ===
 Name: HOW & GAUD
-Class: Old Couple
+Class: Elite Four
 Pic: Old Couple
 Gender: Male
-Music: Intense
+Music: Elite Four
 Double Battle: Yes
-AI: Double Elite Trainer / Prediction / Assumptions
+AI: Double Elite Trainer / Prediction
 Mugshot: Blue
 
 Swampert @ Swampertite  
@@ -152,7 +128,7 @@ Adamant Nature
 
 Ludicolo @ Leftovers  
 Ability: Rain Dish  
-Tera Type: Steel  
+Tera Type: Water  
 Bold Nature  
 - Energy Ball  
 - Leech Seed  
