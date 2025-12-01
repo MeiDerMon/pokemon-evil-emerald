@@ -44,9 +44,9 @@
 #define NUM_TEMP_FLAGS   (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
 
 #define FLAG_ALWAYS_SET      0x20 // Always Set Flag
-#define FLAG_UNUSED_0x021    0x21 // Unused Flag
-#define FLAG_UNUSED_0x022    0x22 // Unused Flag
-#define FLAG_UNUSED_0x023    0x23 // Unused Flag
+#define FLAG_FIRST_CENTER    0x21 // Set when the player heals for the first time
+#define FLAG_NUZLOCKE        0x22 // Set if Nuzlocke Mode is on
+#define FLAG_G_REPEL         0x23 // Check if G Repel is on
 #define FLAG_UNUSED_0x024    0x24 // Unused Flag
 #define FLAG_UNUSED_0x025    0x25 // Unused Flag
 #define FLAG_UNUSED_0x026    0x26 // Unused Flag

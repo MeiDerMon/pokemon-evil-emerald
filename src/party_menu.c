@@ -492,6 +492,12 @@ static void ShowMoveSelectWindow(u8 slot);
 static void Task_HandleWhichMoveInput(u8 taskId);
 static void Task_HideFollowerNPCForTeleport(u8);
 static void FieldCallback_RockClimb(void);
+static void ShowCandySelectWindow(u8 slot);
+static void Task_HandleWhichCandyInput(u8);
+static void Task_RareCandy_Resume(u8);
+static void ShowStatusSelectWindow(u8 slot);
+static void Task_HandleWhichStatusInput(u8);
+static void Task_StatusPowder_Resume(u8);
 
 // static const data
 #include "data/party_menu.h"
@@ -2757,6 +2763,12 @@ static u8 DisplaySelectionWindow(u8 windowType)
     case SELECTWINDOW_ZYGARDECUBE:
         window = sZygardeCubeSelectWindowTemplate;
         break;
+    case SELECTWINDOW_NCANDY:
+        window = sPartyMenuNCandyTemplate;
+        break;
+    case SELECTWINDOW_STATUS:
+        window = sPartyMenuStatusPowderTemplate;
+        break;
     default: // SELECTWINDOW_MOVES
         window = sMoveSelectWindowTemplate;
         break;
@@ -4556,6 +4568,8 @@ void CB2_ShowPartyMenuForItemUse(void)
         gPartyMenu.data1 = 0;
     }
 
+    gPartyMenu.candyChoice = -1;
+
     if (gMain.inBattle)
     {
         menuType = PARTY_MENU_TYPE_IN_BATTLE;
@@ -5675,6 +5689,8 @@ static void UNUSED DisplayExpPoints(u8 taskId, TaskFunc task, u8 holdEffectParam
     gTasks[taskId].func = task;
 }
 
+static const u8 sText_LevelCap[] = _("{STR_VAR_1} was elevated to Level Cap.");
+
 void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
 {
     struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
@@ -5687,9 +5703,27 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
     sInitialLevel = GetMonData(mon, MON_DATA_LEVEL);
     if (!(B_RARE_CANDY_CAP && sInitialLevel >= GetCurrentLevelCap()))
     {
-        BufferMonStatsToTaskData(mon, arrayPtr);
-        cannotUseEffect = ExecuteTableBasedItemEffect(mon, *itemPtr, gPartyMenu.slotId, 0);
-        BufferMonStatsToTaskData(mon, &ptr->data[NUM_STATS]);
+        if (gPartyMenu.candyChoice == 0 && holdEffectParam == EXP_N) 
+        {
+            BufferMonStatsToTaskData(mon, arrayPtr);
+            cannotUseEffect = ExecuteTableBasedItemEffect(mon, ITEM_RARE_CANDY, gPartyMenu.slotId, 0);
+            BufferMonStatsToTaskData(mon, &ptr->data[NUM_STATS]);
+        }
+        else if (gPartyMenu.candyChoice == -1)
+        {
+            PlaySE(SE_SELECT);
+            DisplayPartyMenuStdMessage(PARTY_MSG_DO_WHAT_WITH_ITEM);
+            ShowCandySelectWindow(gPartyMenu.slotId);
+            gTasks[taskId].func = Task_HandleWhichCandyInput;
+
+            return;
+        } 
+        else
+        {
+            BufferMonStatsToTaskData(mon, arrayPtr);
+            cannotUseEffect = ExecuteTableBasedItemEffect(mon, *itemPtr, gPartyMenu.slotId, 0);
+            BufferMonStatsToTaskData(mon, &ptr->data[NUM_STATS]);
+        }
     }
     else
     {
@@ -5705,7 +5739,7 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
         sInitialLevel = 0;
         sFinalLevel = 0;
 
-        if (holdEffectParam == 0) // Rare Candy
+        if (holdEffectParam == 0 || gPartyMenu.candyChoice == 0) // Rare Candy
         {
             targetSpecies = GetEvolutionTargetSpecies(mon, EVO_MODE_NORMAL, ITEM_NONE, NULL, &canStopEvo, CHECK_EVO);
         }
@@ -5730,9 +5764,14 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
     else
     {
         sFinalLevel = GetMonData(mon, MON_DATA_LEVEL, NULL);
-        gPartyMenuUseExitCallback = TRUE;
+
+        if (holdEffectParam != EXP_N) 
+        {
+            gPartyMenuUseExitCallback = TRUE;
+            RemoveBagItem(gSpecialVar_ItemId, 1);
+        }
+
         UpdateMonDisplayInfoAfterRareCandy(gPartyMenu.slotId, mon);
-        RemoveBagItem(gSpecialVar_ItemId, 1);
         GetMonNickname(mon, gStringVar1);
         if (sFinalLevel > sInitialLevel)
         {
@@ -5742,7 +5781,19 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
                 ConvertIntToDecimalStringN(gStringVar2, sFinalLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
                 StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
             }
-            else // Exp Candies
+            else if (holdEffectParam == EXP_N) // N Candy
+            {
+                if (gPartyMenu.candyChoice == 1) // Level Cap
+                {
+                    StringExpandPlaceholders(gStringVar4, sText_LevelCap);
+                }
+                else
+                {
+                    ConvertIntToDecimalStringN(gStringVar2, sFinalLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
+                    StringExpandPlaceholders(gStringVar4, gText_PkmnElevatedToLvVar2);
+                }
+            }
+            else
             {
                 ConvertIntToDecimalStringN(gStringVar2, sExpCandyExperienceTable[holdEffectParam - 1], STR_CONV_MODE_LEFT_ALIGN, 6);
                 ConvertIntToDecimalStringN(gStringVar3, sFinalLevel, STR_CONV_MODE_LEFT_ALIGN, 3);
@@ -5764,6 +5815,182 @@ void ItemUseCB_RareCandy(u8 taskId, TaskFunc task)
             gTasks[taskId].func = task;
         }
     }
+}
+
+static void ShowCandySelectWindow(u8 slot)
+{
+    u8 windowId = DisplaySelectionWindow(SELECTWINDOW_NCANDY);
+    
+    static const u8 sChoice1[] = _("Single Level");
+    static const u8 sChoice2[] = _("Level Cap");
+
+    const u8 *choices[2] = {sChoice1, sChoice2};
+
+    for (u8 i = 0; i < 2; i++)
+    {
+        AddTextPrinterParameterized(windowId, FONT_NORMAL, choices[i], 8, (i * 16) + 1, TEXT_SKIP_DRAW, NULL);
+    }
+
+    InitMenuInUpperLeftCornerNormal(windowId, 2, 0);  // Exactly 2 choices
+    sPartyMenuInternal->windowId[1] = windowId;
+    ScheduleBgCopyTilemapToVram(2);
+}
+
+static void Task_HandleWhichCandyInput(u8 taskId)
+{
+    s8 input = Menu_ProcessInput();
+
+    if (input == MENU_NOTHING_CHOSEN)
+        return;
+
+    if (input == MENU_B_PRESSED)
+    {
+        PlaySE(SE_SELECT);
+
+        // Close the selection window
+        ClearStdWindowAndFrame(sPartyMenuInternal->windowId[1], TRUE);
+        RemoveWindow(sPartyMenuInternal->windowId[1]);
+        ScheduleBgCopyTilemapToVram(2);
+
+        ReturnToUseOnWhichMon(taskId);
+        return;
+    }
+
+    // Close the selection window
+    ClearStdWindowAndFrame(sPartyMenuInternal->windowId[1], TRUE);
+    RemoveWindow(sPartyMenuInternal->windowId[1]);
+    ScheduleBgCopyTilemapToVram(2);
+    
+    gPartyMenu.candyChoice = input;
+
+    gItemUseCB = ItemUseCB_RareCandy;
+    gTasks[taskId].func = Task_RareCandy_Resume;
+}
+
+static void Task_RareCandy_Resume(u8 taskId)
+{
+    ItemUseCB_RareCandy(taskId, Task_ClosePartyMenu);
+}
+
+static const u8 sText_Status_None[] = _("None");
+static const u8 sText_Status_PSN[]  = _("Poison");
+static const u8 sText_Status_PRZ[]  = _("Paralysis");
+static const u8 sText_Status_SLP[]  = _("Sleep");
+static const u8 sText_Status_FRZ[]  = _("Freeze");
+static const u8 sText_Status_BRN[]  = _("Burn");
+static const u8 *const sStatusShortNames[] = {sText_Status_None, sText_Status_PSN, sText_Status_PRZ, sText_Status_SLP, sText_Status_FRZ, sText_Status_BRN};
+
+void ItemUseCB_StatusPowder(u8 taskId, TaskFunc task)
+{
+    struct Pokemon *mon = &gPlayerParty[gPartyMenu.slotId];
+
+    if (gPartyMenu.candyChoice == -1)
+    {
+        PlaySE(SE_SELECT);
+        DisplayPartyMenuStdMessage(PARTY_MSG_DO_WHAT_WITH_ITEM);
+        ShowStatusSelectWindow(gPartyMenu.slotId);
+        gTasks[taskId].func = Task_HandleWhichStatusInput;
+
+        return;
+    }
+    else
+    {
+        u32 status = STATUS1_POISON;
+        GetMonNickname(mon, gStringVar1);
+        StringCopy(gStringVar2, sStatusShortNames[gPartyMenu.candyChoice]);
+        StringExpandPlaceholders(gStringVar4, gText_PkmnAffected);
+        switch (gPartyMenu.candyChoice) 
+        {
+            case 0:
+                status = STATUS1_NONE;
+                StringExpandPlaceholders(gStringVar4, gText_PkmnCured);
+                break;
+            case 1:
+                status = STATUS1_POISON;
+                break;
+            case 2:
+                status = STATUS1_PARALYSIS;
+                break;
+            case 3:
+                status = STATUS1_SLEEP;
+                break;
+            case 4:
+                status = STATUS1_FREEZE;
+                break;
+            case 5:
+                status = STATUS1_BURN;
+                break;
+        }
+
+        SetMonData(mon, MON_DATA_STATUS, &status);
+        UpdateMonDisplayInfoAfterRareCandy(gPartyMenu.slotId, mon);
+
+        PlaySE(SE_USE_ITEM);
+        gPartyMenuUseExitCallback = FALSE;
+        DisplayPartyMenuMessage(gStringVar4, FALSE);
+        ScheduleBgCopyTilemapToVram(2);
+        gTasks[taskId].func = Task_ClosePartyMenuAfterText;
+    }
+}
+
+static void ShowStatusSelectWindow(u8 slot)
+{
+    u8 windowId = DisplaySelectionWindow(SELECTWINDOW_STATUS);
+    
+    static const u8 sChoice1[] = _("HEAL");
+    static const u8 sChoice2[] = _("PSN");
+    static const u8 sChoice3[] = _("PRZ");
+    static const u8 sChoice4[] = _("SLP");
+    static const u8 sChoice5[] = _("FRZ");
+    static const u8 sChoice6[] = _("BRN");
+
+    const u8 *choices[6] = {sChoice1, sChoice2, sChoice3, sChoice4, sChoice5, sChoice6};
+
+    for (u8 i = 0; i < 6; i++)
+    {
+        AddTextPrinterParameterized(windowId, FONT_NORMAL, choices[i], 8, (i * 16) + 1, TEXT_SKIP_DRAW, NULL);
+    }
+
+    InitMenuInUpperLeftCornerNormal(windowId, 6, 0);
+    sPartyMenuInternal->windowId[1] = windowId;
+    ScheduleBgCopyTilemapToVram(2);
+}
+
+static void Task_HandleWhichStatusInput(u8 taskId)
+{
+    s8 input = Menu_ProcessInput();
+
+    if (input == MENU_NOTHING_CHOSEN)
+        return;
+
+    if (input == MENU_B_PRESSED)
+    {
+        PlaySE(SE_SELECT);
+
+        // Close the selection window
+        ClearStdWindowAndFrame(sPartyMenuInternal->windowId[1], TRUE);
+        RemoveWindow(sPartyMenuInternal->windowId[1]);
+        ScheduleBgCopyTilemapToVram(2);
+
+        ReturnToUseOnWhichMon(taskId);
+        gPartyMenu.candyChoice = -1;
+        return;
+    }
+
+    // Close the selection window
+    ClearStdWindowAndFrame(sPartyMenuInternal->windowId[1], TRUE);
+    RemoveWindow(sPartyMenuInternal->windowId[1]);
+    ScheduleBgCopyTilemapToVram(2);
+    
+    gPartyMenu.candyChoice = input;
+
+    gItemUseCB = ItemUseCB_StatusPowder;
+    gTasks[taskId].func = Task_StatusPowder_Resume;
+}
+
+static void Task_StatusPowder_Resume(u8 taskId)
+{
+    ItemUseCB_StatusPowder(taskId, gTasks[taskId].func);
 }
 
 static void UpdateMonDisplayInfoAfterRareCandy(u8 slot, struct Pokemon *mon)

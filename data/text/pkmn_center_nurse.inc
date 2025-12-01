@@ -49,3 +49,10 @@ gText_ThankYouForWaiting::
 
 gText_WeHopeToSeeYouAgain2::
 	.string "We hope to see you again!$"
+
+gText_YourFirstTime:
+	.string "This must be your first\n"
+	.string "time in one of our Centers!\p"
+	.string "For first time members\n"
+	.string "we give out special Items.\p"
+	.string "These should make your life easier.$"

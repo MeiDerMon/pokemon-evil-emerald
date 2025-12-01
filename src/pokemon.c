@@ -3759,6 +3759,7 @@ const u32 sExpCandyExperienceTable[] = {
     [EXP_3000 - 1] = 3000,
     [EXP_10000 - 1] = 10000,
     [EXP_30000 - 1] = 30000,
+    [EXP_N - 1] = 999999999,
 };
 
 // Returns TRUE if the item has no effect on the Pokémon, FALSE otherwise
@@ -7063,26 +7064,40 @@ void HealPokemon(struct Pokemon *mon)
 {
     u32 data;
 
-    data = GetMonData(mon, MON_DATA_MAX_HP);
-    SetMonData(mon, MON_DATA_HP, &data);
+    if (FlagGet(FLAG_NUZLOCKE)) {
+        if (GetMonData(mon, MON_DATA_HP) != 0) {
+            data = GetMonData(mon, MON_DATA_MAX_HP);
+            SetMonData(mon, MON_DATA_HP, &data);
 
-    data = STATUS1_NONE;
-    SetMonData(mon, MON_DATA_STATUS, &data);
+            data = STATUS1_NONE;
+            SetMonData(mon, MON_DATA_STATUS, &data);
 
-    MonRestorePP(mon);
+            MonRestorePP(mon);
+        }
+    } else {
+        data = GetMonData(mon, MON_DATA_MAX_HP);
+        SetMonData(mon, MON_DATA_HP, &data);
+
+        data = STATUS1_NONE;
+        SetMonData(mon, MON_DATA_STATUS, &data);
+
+        MonRestorePP(mon);
+    }
 }
 
 void HealBoxPokemon(struct BoxPokemon *boxMon)
 {
     u32 data;
 
-    data = 0;
-    SetBoxMonData(boxMon, MON_DATA_HP_LOST, &data);
+    if (!FlagGet(FLAG_NUZLOCKE)) {
+        data = 0;
+        SetBoxMonData(boxMon, MON_DATA_HP_LOST, &data);
 
-    data = STATUS1_NONE;
-    SetBoxMonData(boxMon, MON_DATA_STATUS, &data);
+        data = STATUS1_NONE;
+        SetBoxMonData(boxMon, MON_DATA_STATUS, &data);
 
-    BoxMonRestorePP(boxMon);
+        BoxMonRestorePP(boxMon);
+    }
 }
 
 enum PokemonCry GetCryIdBySpecies(u16 species)

@@ -994,10 +994,17 @@
 
 #define ITEM_STRANGE_BALL 828
 
+// Custom added Items
+#define ITEM_POCKET_CENTER 829
+#define ITEM_POCKET_PC 830
+#define ITEM_G_REPEL 831
+#define ITEM_N_CANDY 832
+#define ITEM_STATUS_POWDER 833
+
 // HOPO BERRY
 // LEGEND PLATE
 
-#define ITEMS_COUNT 829
+#define ITEMS_COUNT 834
 #define ITEM_FIELD_ARROW ITEMS_COUNT
 
 // A special item id associated with "Cancel"/"Exit" etc. in a list of items or decorations
@@ -1049,6 +1056,7 @@
 #define EXP_3000  3
 #define EXP_10000 4
 #define EXP_30000 5
+#define EXP_N     6
 
 // Item type IDs (used to determine the exit callback)
 #define ITEM_USE_MAIL             0

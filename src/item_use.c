@@ -45,6 +45,7 @@
 #include "constants/item_effects.h"
 #include "constants/items.h"
 #include "constants/songs.h"
+#include "script_pokemon_util.h"
 
 static void SetUpItemUseCallback(u8);
 static void FieldCB_UseItemOnField(void);
@@ -80,6 +81,11 @@ static void SetDistanceOfClosestHiddenItem(u8, s16, s16);
 static void CB2_OpenPokeblockFromBag(void);
 static void ItemUseOnFieldCB_Honey(u8 taskId);
 static bool32 IsValidLocationForVsSeeker(void);
+
+// Custom Items
+static void ItemUseOnFieldCB_PocketPC(u8);
+static void ItemUseOnFieldCB_PocketCenter(u8);
+static void ItemUseOnFieldCB_GRepel(u8);
 
 static const u8 sText_CantDismountBike[] = _("You can't dismount your BIKE here.{PAUSE_UNTIL_PRESS}");
 static const u8 sText_ItemFinderNearby[] = _("Huh?\nThe ITEMFINDER's responding!\pThere's an item buried around here!{PAUSE_UNTIL_PRESS}");
@@ -953,6 +959,71 @@ static void RemoveUsedItem(void)
         UpdatePyramidBagList();
         UpdatePyramidBagCursorPos();
     }
+}
+
+// Custom Item
+void ItemUseOutOfBattle_GRepel(u8 taskId)
+{
+    sItemUseOnFieldCB = ItemUseOnFieldCB_GRepel;
+    SetUpItemUseOnFieldCallback(taskId);
+}
+
+static void ItemUseOnFieldCB_GRepel(u8 taskId)
+{
+    PlaySE(SE_REPEL);
+    
+    if (!FlagGet(FLAG_G_REPEL)) {
+        FlagSet(FLAG_G_REPEL);
+        DisplayItemMessageOnField(taskId, gText_GRepelActivate, Task_CloseCantUseKeyItemMessage);
+    } else {
+        FlagClear(FLAG_G_REPEL);
+        DisplayItemMessageOnField(taskId, gText_GRepelDeactivate, Task_CloseCantUseKeyItemMessage);
+    }
+}
+
+void ItemUseOutOfBattle_PocketCenter(u8 taskId)
+{
+    if (Overworld_IsBikingAllowed()) {
+        sItemUseOnFieldCB = ItemUseOnFieldCB_PocketCenter;
+        SetUpItemUseOnFieldCallback(taskId);
+    } else {
+        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    }
+}
+
+static void ItemUseOnFieldCB_PocketCenter(u8 taskId)
+{
+    PlaySE(SE_USE_ITEM);
+    HealPlayerParty();
+    DisplayItemMessageOnField(taskId, gText_PartyHealed, Task_CloseCantUseKeyItemMessage);
+}
+
+void ItemUseOutOfBattle_PocketPC(u8 taskId)
+{
+    if (Overworld_IsBikingAllowed()) {
+        sItemUseOnFieldCB = ItemUseOnFieldCB_PocketPC;
+        SetUpItemUseOnFieldCallback(taskId);
+    } else {
+        DisplayDadsAdviceCannotUseItemMessage(taskId, gTasks[taskId].tUsingRegisteredKeyItem);
+    }
+}
+
+static void ItemUseOnFieldCB_PocketPC(u8 taskId)
+{
+    ScriptContext_SetupScript(EventScript_AccessPokemonBoxLink);
+    DestroyTask(taskId);
+}
+
+void ItemUseOutOfBattle_NCandy(u8 taskId)
+{
+    gItemUseCB = ItemUseCB_RareCandy;
+    SetUpItemUseCallback(taskId);
+}
+
+void ItemUseOutOfBattle_StatusPowder(u8 taskId)
+{
+    gItemUseCB = ItemUseCB_StatusPowder;
+    SetUpItemUseCallback(taskId);
 }
 
 void ItemUseOutOfBattle_Repel(u8 taskId)

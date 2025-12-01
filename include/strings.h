@@ -379,6 +379,8 @@ extern const u8 gText_StopLearningMove2[];
 extern const u8 gText_MoveNotLearned[];
 extern const u8 gText_PkmnElevatedToLvVar2[];
 extern const u8 gText_PkmnGainedExp[];
+extern const u8 gText_PkmnAffected[];
+extern const u8 gText_PkmnCured[];
 extern const u8 gText_PkmnGainedExpAndElevatedToLvVar3[];
 extern const u8 gText_RemoveMailBeforeItem[];
 extern const u8 gText_PkmnHoldingItemCantHoldMail[];
@@ -2427,5 +2429,10 @@ extern const u8 gText_Rename[]; // change nickname from summary screen
 extern const u8 gText_CannotSendMonToBoxHM[];
 extern const u8 gText_CannotSendMonToBoxActive[];
 extern const u8 gText_CannotSendMonToBoxPartner[];
+
+// Custom Textes
+extern const u8 gText_GRepelActivate[];
+extern const u8 gText_GRepelDeactivate[];
+extern const u8 gText_PartyHealed[];
 
 #endif // GUARD_STRINGS_H

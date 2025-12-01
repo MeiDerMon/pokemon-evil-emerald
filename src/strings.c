@@ -284,6 +284,8 @@ const u8 gText_PkmnRegainhedHealth[] = _("{STR_VAR_1} regained health.{PAUSE_UNT
 const u8 gText_PkmnBecameHealthy[] = _("{STR_VAR_1} became healthy.{PAUSE_UNTIL_PRESS}");
 const u8 gText_MovesPPIncreased[] = _("{STR_VAR_1}'s PP increased.{PAUSE_UNTIL_PRESS}");
 const u8 gText_PkmnElevatedToLvVar2[] = _("{STR_VAR_1} was elevated to\nLv. {STR_VAR_2}.");
+const u8 gText_PkmnAffected[] = _("{STR_VAR_1} was affected by {STR_VAR_2}!{PAUSE_UNTIL_PRESS}");
+const u8 gText_PkmnCured[] = _("{STR_VAR_1} was cured of all\nstatus conditions!{PAUSE_UNTIL_PRESS}");
 const u8 gText_PkmnGainedExp[] = _("{STR_VAR_1} gained {STR_VAR_2} Exp. Points!{PAUSE_UNTIL_PRESS}");
 const u8 gText_PkmnGainedExpAndElevatedToLvVar3[] = _("{STR_VAR_1} gained {STR_VAR_2} Exp. Points\nand was elevated to Lv. {STR_VAR_3}!");
 const u8 gText_PkmnBaseVar2StatIncreased[] = _("{STR_VAR_1}'s base {STR_VAR_2}\nstat was raised.{PAUSE_UNTIL_PRESS}");
@@ -1302,3 +1304,8 @@ const u8 gText_Rename[] = _("RENAME");
 const u8 gText_CannotSendMonToBoxHM[] = _("Cannot send that mon to the box,\nbecause it knows a HM move.{PAUSE_UNTIL_PRESS}");
 const u8 gText_CannotSendMonToBoxActive[] = _("Cannot send an active battler\nto the box.{PAUSE_UNTIL_PRESS}");
 const u8 gText_CannotSendMonToBoxPartner[] = _("Cannot send a mon that doesn't,\nbelong to you to the box.{PAUSE_UNTIL_PRESS}");
+
+// Custom Strings
+const u8 gText_GRepelActivate[] = _("Repel was toggled on.{PAUSE_UNTIL_PRESS}");
+const u8 gText_GRepelDeactivate[] = _("Repel was toggled off.{PAUSE_UNTIL_PRESS}");
+const u8 gText_PartyHealed[] = _("Your party was healed.{PAUSE_UNTIL_PRESS}");

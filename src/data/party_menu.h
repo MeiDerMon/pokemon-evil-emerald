@@ -526,6 +526,28 @@ static const struct WindowTemplate sMoveSelectWindowTemplate =
     .baseBlock = 0x2E9,
 };
 
+static const struct WindowTemplate sPartyMenuNCandyTemplate =
+{
+    .bg = 2,
+    .tilemapLeft = 19,
+    .tilemapTop = 11,
+    .width = 10,
+    .height = 4,
+    .paletteNum = 14,
+    .baseBlock = 0x2E9,
+};
+
+static const struct WindowTemplate sPartyMenuStatusPowderTemplate =
+{
+    .bg = 2,
+    .tilemapLeft = 24,
+    .tilemapTop = 7,
+    .width = 5,
+    .height = 12,
+    .paletteNum = 14,
+    .baseBlock = 0x2E9,
+};
+
 static const struct WindowTemplate sCatalogSelectWindowTemplate =
 {
     .bg = 2,

@@ -3403,4 +3403,16 @@ extern const u32 gBattleIcons_Gfx2[];
 extern const u16 gBattleIcons_Pal1[];
 extern const u16 gBattleIcons_Pal2[];
 
+// Custom Items
+extern const u32 gItemIcon_PocketCenter[];
+extern const u16 gItemIconPalette_PocketCenter[];
+extern const u32 gItemIcon_PocketPC[];
+extern const u16 gItemIconPalette_PocketPC[];
+extern const u32 gItemIcon_GRepel[];
+extern const u16 gItemIconPalette_GRepel[];
+extern const u32 gItemIcon_NCandy[];
+extern const u16 gItemIconPalette_NCandy[];
+extern const u32 gItemIcon_StatusPowder[];
+extern const u16 gItemIconPalette_StatusPowder[];
+
 #endif //GUARD_GRAPHICS_H

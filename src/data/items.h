@@ -14589,6 +14589,88 @@ const struct Item gItemsInfo[] =
         .iconPic = gItemIcon_PokeshiDoll,
         .iconPalette = gItemIconPalette_PokeshiDoll,
     },
+
+    // Custom Items
+    [ITEM_POCKET_CENTER] =
+    {
+        .name = ITEM_NAME("Pocket Center"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "Works the same as a\n"
+            "Pokémon Center."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_PocketCenter,
+        .iconPic = gItemIcon_PocketCenter,
+        .iconPalette = gItemIconPalette_PocketCenter,
+    },
+
+    [ITEM_POCKET_PC] =
+    {
+        .name = ITEM_NAME("Pocket PC"),
+        .price = 0,
+        .description = COMPOUND_STRING(
+            "This device grants\n"
+            "access to the {PKMN}\n"
+            "Storage System."),
+        .importance = 1,
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_PocketPC,
+        .iconPic = gItemIcon_PocketPC,
+        .iconPalette = gItemIconPalette_PocketPC,
+    },
+
+    [ITEM_G_REPEL] =
+    {
+        .name = ITEM_NAME("G. Repel"),
+        .price = 0,
+        .importance = 1,
+        .description = COMPOUND_STRING(
+            "With this you can\n"
+            "toggle the Repel\n"
+            "status."),
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_FIELD,
+        .fieldUseFunc = ItemUseOutOfBattle_GRepel,
+        .iconPic = gItemIcon_GRepel,
+        .iconPalette = gItemIconPalette_GRepel,
+    },
+
+    [ITEM_N_CANDY] =
+    {
+        .name = ITEM_NAME("N. Candy"),
+        .price = 0,
+        .holdEffectParam = EXP_N,
+        .importance = 1,
+        .description = COMPOUND_STRING(
+            "Raises the level\n"
+            "of a Pokémon to\n"
+            "the Levelcap."),
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_NCandy,
+        .effect = gItemEffect_RareCandy,
+        .iconPic = gItemIcon_NCandy,
+        .iconPalette = gItemIconPalette_NCandy,
+    },
+
+    [ITEM_STATUS_POWDER] =
+    {
+        .name = ITEM_NAME("Status Powder"),
+        .price = 0,
+        .importance = 1,
+        .description = COMPOUND_STRING(
+            "Change the status\n"
+            "of a Pokémon."),
+        .pocket = POCKET_KEY_ITEMS,
+        .type = ITEM_USE_PARTY_MENU,
+        .fieldUseFunc = ItemUseOutOfBattle_StatusPowder,
+        .effect = gItemEffect_RareCandy,
+        .iconPic = gItemIcon_StatusPowder,
+        .iconPalette = gItemIconPalette_StatusPowder,
+    },
 };
 
 #undef ITEM_NAME

@@ -1,6 +1,7 @@
 Common_EventScript_PkmnCenterNurse::
 	lock
 	faceplayer
+	goto_if_unset FLAG_FIRST_CENTER, EventScript_PkmnCenterNurse_CheckFirst
 	setvar VAR_0x8004, 0
 	specialvar VAR_RESULT, CountPlayerTrainerStars
 	goto_if_eq VAR_RESULT, 4, EventScript_PkmnCenterNurse_GoldCard
@@ -8,6 +9,15 @@ Common_EventScript_PkmnCenterNurse::
 	goto_if_eq VAR_RESULT, YES, EventScript_PkmnCenterNurse_HealPkmn
 	goto_if_eq VAR_RESULT, NO, EventScript_PkmnCenterNurse_Goodbye
 	end
+
+EventScript_PkmnCenterNurse_CheckFirst::
+	message gText_YourFirstTime
+	waitmessage
+	giveitem ITEM_POCKET_CENTER
+	giveitem ITEM_POCKET_PC
+	giveitem ITEM_G_REPEL
+	setflag FLAG_FIRST_CENTER
+	return
 
 EventScript_PkmnCenterNurse_Goodbye::
 	message gText_WeHopeToSeeYouAgain
