@@ -130,6 +130,9 @@ LittlerootTown_ProfessorBirchsLab_EventScript_GoSeeRival::
 
 LittlerootTown_ProfessorBirchsLab_EventScript_AgreeToSeeRival::
 	msgbox LittlerootTown_ProfessorBirchsLab_Text_GetRivalToTeachYou, MSGBOX_DEFAULT
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_BeforeIForget, MSGBOX_DEFAULT
+	giveitem ITEM_POKE_BALL, 15
+	msgbox LittlerootTown_ProfessorBirchsLab_Text_CatchPokemonWithPokeBalls, MSGBOX_DEFAULT
 	clearflag FLAG_HIDE_ROUTE_101_BOY
 	setvar VAR_BIRCH_LAB_STATE, 3
 	releaseall
@@ -714,6 +717,16 @@ LittlerootTown_ProfessorBirchsLab_Text_GetRivalToTeachYou:
 	.string "{RIVAL} should be happy, too.\p"
 	.string "Get {RIVAL} to teach you what it\n"
 	.string "means to be a TRAINER.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_BeforeIForget:
+	.string "PROF. BIRCH: Oh, before I forget-\n"
+	.string "{PLAYER}{KUN}, you should take these\p"
+	.string "as well.$"
+
+LittlerootTown_ProfessorBirchsLab_Text_CatchPokemonWithPokeBalls:
+	.string "PROF. BIRCH: With those, you’ll\n"
+	.string "be able to catch POKéMON as you\p" 
+	.string "explore.$"
 
 LittlerootTown_ProfessorBirchsLab_Text_DontBeThatWay:
 	.string "PROF. BIRCH: Oh, don't be that way.\n"

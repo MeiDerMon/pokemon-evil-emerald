@@ -43,11 +43,11 @@
 #define TEMP_FLAGS_END   FLAG_TEMP_1F
 #define NUM_TEMP_FLAGS   (TEMP_FLAGS_END - TEMP_FLAGS_START + 1)
 
-#define FLAG_ALWAYS_SET      0x20 // Always Set Flag
-#define FLAG_FIRST_CENTER    0x21 // Set when the player heals for the first time
-#define FLAG_NUZLOCKE        0x22 // Set if Nuzlocke Mode is on
-#define FLAG_G_REPEL         0x23 // Check if G Repel is on
-#define FLAG_UNUSED_0x024    0x24 // Unused Flag
+#define FLAG_ALWAYS_SET                         0x20 // Always Set Flag
+#define FLAG_FIRST_CENTER                       0x21 // Set when the player heals for the first time
+#define FLAG_NUZLOCKE                           0x22 // Set if Nuzlocke Mode is on
+#define FLAG_G_REPEL                            0x23 // Check if G Repel is on
+#define FLAG_HIDE_STATIC_LITTLEROOT_OUTCOVE     0x24 // Hide Static Encounters on Littleroot Outcove
 #define FLAG_UNUSED_0x025    0x25 // Unused Flag
 #define FLAG_UNUSED_0x026    0x26 // Unused Flag
 #define FLAG_UNUSED_0x027    0x27 // Unused Flag

@@ -1,0 +1,55 @@
+{
+  "id": "MAP_LITTLEROOT_OUTCOVE",
+  "name": "LittlerootOutcove",
+  "layout": "LAYOUT_LITTLEROOT_OUTCOVE",
+  "music": "MUS_ROUTE101",
+  "region_map_section": "MAPSEC_LITTLEROOT_OUTCOVE",
+  "requires_flash": false,
+  "weather": "WEATHER_SHADE",
+  "map_type": "MAP_TYPE_ROUTE",
+  "allow_cycling": true,
+  "allow_escaping": false,
+  "allow_running": true,
+  "show_map_name": true,
+  "battle_scene": "MAP_BATTLE_SCENE_NORMAL",
+  "connections": [
+    {
+      "map": "MAP_ROUTE101",
+      "offset": 0,
+      "direction": "left"
+    }
+  ],
+  "object_events": [
+    {
+      "local_id": "LOCALID_BULBASAUR",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(BULBASAUR)",
+      "x": 15,
+      "y": 9,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_DOWN",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "LittlerootOutcove_Static",
+      "flag": "FLAG_HIDE_STATIC_LITTLEROOT_OUTCOVE"
+    },
+    {
+      "local_id": "LOCALID_TREECKO",
+      "graphics_id": "OBJ_EVENT_GFX_SPECIES(TREECKO)",
+      "x": 15,
+      "y": 10,
+      "elevation": 0,
+      "movement_type": "MOVEMENT_TYPE_WALK_IN_PLACE_UP",
+      "movement_range_x": 0,
+      "movement_range_y": 0,
+      "trainer_type": "TRAINER_TYPE_NONE",
+      "trainer_sight_or_berry_tree_id": "0",
+      "script": "LittlerootOutcove_Static",
+      "flag": "FLAG_HIDE_STATIC_LITTLEROOT_OUTCOVE"
+    }
+  ],
+  "warp_events": [],
+  "coord_events": [],
+  "bg_events": []
+}
